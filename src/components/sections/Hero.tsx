@@ -92,7 +92,7 @@ export function Hero() {
             ))}
           </span>
           <span
-            className="block bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"
+            className="block bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"
           >
             {lastChars.map((char, i) => (
               <span
@@ -128,7 +128,7 @@ export function Hero() {
         <div className="flex flex-wrap items-center justify-center gap-4 mb-14 animate-fade-in-up animation-delay-600">
           <a
             href="#projects"
-            className="inline-flex items-center gap-2 font-display font-bold text-base px-8 py-4 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-lg shadow-violet-500/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/35 active:translate-y-0 transition-all"
+            className="inline-flex items-center gap-2 font-display font-bold text-base px-8 py-4 rounded-full bg-linear-to-r from-violet-500 to-cyan-500 text-white shadow-lg shadow-violet-500/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/35 active:translate-y-0 transition-all"
           >
             {t.hero.cta.work} ↓
           </a>
