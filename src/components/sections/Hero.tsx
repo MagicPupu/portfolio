@@ -92,7 +92,7 @@ export function Hero() {
             ))}
           </span>
           <span
-            className="block bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"
+            className="block bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent [-webkit-text-fill-color:transparent]"
           >
             {lastChars.map((char, i) => (
               <span

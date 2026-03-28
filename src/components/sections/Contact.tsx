@@ -32,6 +32,8 @@ export function Contact() {
   const [form, setForm] = useState<FormState>({ name: "", email: "", message: "" })
   const [errors, setErrors] = useState<FormErrors>({})
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
 
   const validate = (): boolean => {
     const next: FormErrors = {}
@@ -43,9 +45,24 @@ export function Contact() {
     return Object.keys(next).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (validate()) setSubmitted(true)
+    if (!validate()) return
+    setSending(true)
+    setSendError(null)
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error(lang === "en" ? "Something went wrong." : "Une erreur est survenue.")
+      setSubmitted(true)
+    } catch (err) {
+      setSendError(err instanceof Error ? err.message : "Error")
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -145,11 +162,15 @@ export function Contact() {
                     className={cn(inputBase, "resize-none", errors.message && "border-red-500/60")} />
                   {errors.message && <p className="text-red-400 text-xs">{errors.message}</p>}
                 </div>
+                {sendError && (
+                  <p className="text-red-400 text-sm">{sendError}</p>
+                )}
                 <button
                   type="submit"
-                  className="font-display font-bold text-base px-8 py-4 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-lg shadow-violet-500/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/35 active:translate-y-0 transition-all self-start"
+                  disabled={sending}
+                  className="font-display font-bold text-base px-8 py-4 rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 text-white shadow-lg shadow-violet-500/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/35 active:translate-y-0 transition-all self-start disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {t.contact.form.send} →
+                  {sending ? (lang === "en" ? "Sending…" : "Envoi…") : `${t.contact.form.send} →`}
                 </button>
               </>
             )}
