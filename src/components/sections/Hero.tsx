@@ -16,8 +16,10 @@ function useTypewriter(words: string[], speed = 80, pause = 2200) {
     if (!deleting && display === current) {
       t = setTimeout(() => setDeleting(true), pause)
     } else if (deleting && display === "") {
-      setDeleting(false)
-      setWordIdx((i) => (i + 1) % words.length)
+      t = setTimeout(() => {
+        setDeleting(false)
+        setWordIdx((i) => (i + 1) % words.length)
+      }, 0)
     } else {
       t = setTimeout(
         () =>
