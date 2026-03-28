@@ -45,7 +45,6 @@ export function Hero() {
   const firstName = "Antoine"
   const lastName = "Pulon"
   const firstChars = firstName.split("")
-  const lastChars = lastName.split("")
 
   return (
     <section
@@ -92,17 +91,10 @@ export function Hero() {
             ))}
           </span>
           <span
-            className="block bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent [-webkit-text-fill-color:transparent]"
+            className="block bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent [-webkit-text-fill-color:transparent] animate-char-in"
+            style={{ animationDelay: `${firstChars.length * 55 + 100}ms` }}
           >
-            {lastChars.map((char, i) => (
-              <span
-                key={i}
-                className="inline-block animate-char-in"
-                style={{ animationDelay: `${(firstChars.length + i) * 55 + 100}ms` }}
-              >
-                {char}
-              </span>
-            ))}
+            {lastName}
           </span>
         </h1>
 
