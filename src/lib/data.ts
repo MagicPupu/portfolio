@@ -143,7 +143,7 @@ export const experiences: Experience[] = [
 export const projects: Project[] = [
   {
     name: "Drinki",
-    tech: ["React Native", "Firebase", "AWS", "MongoDB", "Stripe", "Mapbox"],
+    tech: ["React Native", "Firebase", "AWS", "GCP", "Stripe", "Mapbox"],
     description: {
       en: "B2C/B2B mobile app for nightlife discovery in Bordeaux. Live with real users. Expanding nationally.",
       fr: "App mobile B2C/B2B pour la découverte de bars et clubs à Bordeaux. En production avec de vrais utilisateurs. Expansion nationale en cours.",
@@ -174,7 +174,7 @@ export const projects: Project[] = [
   },
   {
     name: "5C&CO Website",
-    tech: ["Next.js 15", "TypeScript", "Sanity.io", "Tailwind", "Vercel"],
+    tech: ["Next.js 15", "TypeScript", "Tailwind", "Vercel"],
     description: {
       en: "Professional website for a family business. Pastel fuchsia/green palette, Cormorant Garamond + DM Sans typography.",
       fr: "Site professionnel pour une entreprise familiale. Palette fuchsia/vert pastel, typographie Cormorant Garamond + DM Sans.",
@@ -229,7 +229,6 @@ export const skillGroups: SkillGroup[] = [
       { name: "LLMs",           emoji: "🤖", level: 80 },
       { name: "LlamaIndex",     emoji: "🦙", level: 75 },
       { name: "Kedro",          emoji: "🔁", level: 70 },
-      { name: "TableLLM",       emoji: "📊", level: 65 },
       { name: "Machine Learning", emoji: "🧠", level: 70 },
       { name: "Deep Learning",  emoji: "🔬", level: 65 },
       { name: "Power BI",       emoji: "📈", level: 75 },
@@ -255,7 +254,6 @@ export const skillGroups: SkillGroup[] = [
       { name: "Mapbox",    emoji: "🗺️", level: 70 },
       { name: "Firebase",  emoji: "🔥", level: 75 },
       { name: "MongoDB",   emoji: "🍃", level: 75 },
-      { name: "Sanity.io", emoji: "✏️", level: 70 },
       { name: "Vercel",    emoji: "▲",  level: 85 },
     ],
   },
