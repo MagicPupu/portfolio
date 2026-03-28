@@ -10,6 +10,7 @@ export type Experience = {
 
 export type Project = {
   name: string
+  subtitle?: string
   tech: string[]
   description: Bilingual
   badge: string
@@ -151,7 +152,8 @@ export const projects: Project[] = [
     color: "#00F5C4",
   },
   {
-    name: "AI Agent — ArianeGroup",
+    name: "Projet de fin d'études",
+    subtitle: "ArianeGroup",
     tech: ["LLM", "Function Calling", "Python"],
     description: {
       en: "Conversational AI agent orchestrating two internal enterprise tools via LLM function calling. Natural language provisioning workflows.",

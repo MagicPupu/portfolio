@@ -51,9 +51,16 @@ export function Projects() {
                   </span>
 
                   {/* Name */}
-                  <h3 className="font-display font-bold text-xl tracking-tight text-white group-hover:text-[var(--card-glow)] transition-colors">
-                    {project.name}
-                  </h3>
+                  <div>
+                    <h3 className="font-display font-bold text-xl tracking-tight text-white group-hover:text-[var(--card-glow)] transition-colors">
+                      {project.name}
+                    </h3>
+                    {project.subtitle && (
+                      <span className="font-display text-xs text-white/35 mt-0.5 block">
+                        {project.subtitle}
+                      </span>
+                    )}
+                  </div>
 
                   {/* Description */}
                   <p className="text-white/60 text-sm leading-[1.65] flex-1">

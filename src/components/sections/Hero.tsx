@@ -141,7 +141,7 @@ export function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-50 animate-scroll-bounce z-10">
+      <div className="absolute flex flex-col items-center gap-1 opacity-50 animate-scroll-bounce z-10" style={{ bottom: "2rem", left: "50%", transform: "translateX(-50%)" }}>
         <span className="font-display text-[0.7rem] tracking-[0.15em] uppercase">Scroll</span>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-white">
           <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
