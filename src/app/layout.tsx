@@ -3,6 +3,7 @@ import { Space_Grotesk, DM_Sans, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { Providers } from "@/components/providers/Providers"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body className="min-h-screen">
         <Providers>{children}</Providers>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
