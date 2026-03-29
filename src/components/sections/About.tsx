@@ -4,13 +4,13 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 
-const traits = ["☁️ Cloud-native", "🤖 Generative AI", "🚀 Startup builder", "📈 Long-term investor", "🐧 Linux / DevSecOps", "🌏 EN · FR · ES · JP"]
+const traits = ["💻 Full Stack Engineer", "🚀 Startup builder", "🐧 Linux / DevSecOps", "☁️ Cloud-native", "🤖 Generative AI", "📊 Data Science", "📈 Long-term investor", "🌏 EN · FR · ES · JP"]
 
 const stats = [
-  { value: "1",    label: { en: "Startup co-founded", fr: "Startup co-fondée" } },
-  { value: "935",  label: { en: "TOEIC score", fr: "Score TOEIC" } },
   { value: "3+",   label: { en: "Years experience", fr: "Ans d'expérience" } },
   { value: "10+",  label: { en: "Technologies", fr: "Technologies" } },
+  { value: "1",    label: { en: "Startup co-founded", fr: "Startup co-fondée" } },
+  { value: "4",    label: { en: "Languages spoken", fr: "Langues parlées" } },
 ]
 
 export function About() {
@@ -21,12 +21,12 @@ export function About() {
     <section id="about" className="py-28 bg-[#0d0d0d] text-white relative overflow-hidden">
       {/* Background blobs */}
       <div
-        className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
+        className="absolute -top-40 -left-40 w-125 h-125 rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
         style={{ background: "#8B5CF6" }}
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
+        className="absolute -bottom-32 -right-32 w-100 h-100 rounded-full opacity-[0.08] blur-[100px] pointer-events-none"
         style={{ background: "#06b6d4" }}
         aria-hidden="true"
       />
