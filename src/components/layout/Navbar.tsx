@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { cn } from "@/lib/utils"
 import type { Lang } from "@/lib/i18n"
@@ -13,14 +13,16 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const linksContainerRef = useRef<HTMLUListElement>(null)
   const pillRef = useRef<HTMLDivElement>(null)
+  const scrollingTo = useRef<string | null>(null)
+  const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const links = [
+  const links = useMemo(() => [
     { id: "about",      label: t.nav.about },
     { id: "experience", label: t.nav.experience },
     { id: "projects",   label: t.nav.projects },
     { id: "skills",     label: t.nav.skills },
     { id: "contact",    label: t.nav.contact },
-  ]
+  ], [t.nav])
 
   // Track active section on scroll
   useEffect(() => {
@@ -29,8 +31,12 @@ export function Navbar() {
       const el = document.getElementById(id)
       if (!el) return
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        { threshold: 0, rootMargin: "-60px 0px -55% 0px" }
+        ([entry]) => {
+          if (!entry.isIntersecting) return
+          if (scrollingTo.current !== null && scrollingTo.current !== id) return
+          setActive(id)
+        },
+        { threshold: 0, rootMargin: "-60px 0px -35% 0px" }
       )
       obs.observe(el)
       observers.push(obs)
@@ -50,6 +56,13 @@ export function Navbar() {
     pill.style.width = `${linkEl.offsetWidth}px`
   }, [active, links])
 
+  const handleNavClick = (id: string) => {
+    setActive(id)
+    scrollingTo.current = id
+    if (scrollTimer.current) clearTimeout(scrollTimer.current)
+    scrollTimer.current = setTimeout(() => { scrollingTo.current = null }, 1000)
+  }
+
   const toggleLang = () => {
     const next: Lang = lang === "en" ? "fr" : "en"
     setLang(next)
@@ -61,7 +74,7 @@ export function Navbar() {
         {/* Logo */}
         <a
           href="#"
-          className="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"
+          className="font-display font-bold text-xl tracking-tight bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"
         >
           AP<span className="text-white/60">.</span>
         </a>
@@ -70,12 +83,13 @@ export function Navbar() {
         <ul ref={linksContainerRef} className="hidden md:flex items-center gap-0.5 relative">
           <div
             ref={pillRef}
-            className="absolute top-1/2 -translate-y-1/2 h-9 bg-violet-600/80 rounded-full pointer-events-none z-0 transition-all duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+            className="absolute top-1/2 -translate-y-1/2 h-9 bg-violet-600/80 rounded-full pointer-events-none z-0 transition-all duration-350 ease-in-out"
           />
           {links.map((link) => (
             <li key={link.id}>
               <a
                 href={`#${link.id}`}
+                onClick={() => handleNavClick(link.id)}
                 className={cn(
                   "relative z-10 px-4 py-2 text-sm font-display font-medium rounded-full transition-colors duration-200 whitespace-nowrap block",
                   active === link.id ? "text-white" : "text-white/60 hover:text-white"
@@ -99,7 +113,7 @@ export function Navbar() {
 
           <a
             href="#contact"
-            className="hidden md:inline-block bg-gradient-to-r from-violet-500 to-violet-600 text-white font-display font-semibold text-sm px-5 py-2 rounded-full shadow-lg shadow-violet-500/20 hover:-translate-y-px hover:shadow-violet-500/30 active:translate-y-0 transition-all"
+            className="hidden md:inline-block bg-linear-to-r from-violet-500 to-violet-600 text-white font-display font-semibold text-sm px-5 py-2 rounded-full shadow-lg shadow-violet-500/20 hover:-translate-y-px hover:shadow-violet-500/30 active:translate-y-0 transition-all"
           >
             {lang === "en" ? "Hire me ✦" : "Contactez-moi ✦"}
           </a>
@@ -107,7 +121,7 @@ export function Navbar() {
           {/* Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col gap-[5px] p-1"
+            className="md:hidden flex flex-col gap-1.25 p-1"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
@@ -130,7 +144,7 @@ export function Navbar() {
       {/* Mobile drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-screen w-[min(320px,85vw)] bg-[#0e0e16] border-l border-l-violet-500/40 z-50 flex flex-col justify-center items-center gap-6 md:hidden transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+          "fixed top-0 right-0 h-screen w-[min(320px,85vw)] bg-[#0e0e16] border-l border-l-violet-500/40 z-50 flex flex-col justify-center items-center gap-6 md:hidden transition-transform duration-300 ease-in-out",
           mobileOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -138,7 +152,7 @@ export function Navbar() {
           <a
             key={link.id}
             href={`#${link.id}`}
-            onClick={() => setMobileOpen(false)}
+            onClick={() => { handleNavClick(link.id); setMobileOpen(false) }}
             className="font-display text-2xl font-bold text-white hover:text-violet-400 transition-colors"
           >
             {link.label}
@@ -147,7 +161,7 @@ export function Navbar() {
         <a
           href="mailto:antoine.pulon@gmail.com"
           onClick={() => setMobileOpen(false)}
-          className="mt-4 bg-gradient-to-r from-violet-500 to-violet-600 text-white font-display font-bold px-6 py-3 rounded-full shadow-lg shadow-violet-500/20 hover:-translate-y-px transition-all text-base"
+          className="mt-4 bg-linear-to-r from-violet-500 to-violet-600 text-white font-display font-bold px-6 py-3 rounded-full shadow-lg shadow-violet-500/20 hover:-translate-y-px transition-all text-base"
         >
           {lang === "en" ? "Hire me ✦" : "Contactez-moi ✦"}
         </a>
