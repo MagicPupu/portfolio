@@ -29,7 +29,7 @@ const en = {
   },
   about: {
     title: "About",
-    body: "22-year-old French engineer based in Bordeaux. I build full-stack products, ship AI pipelines, and co-found startups — all while completing my Master's at CESI. Fluent in English (TOEIC 935), conversational in Spanish, learning Japanese. Passionate about cloud-native systems, generative AI, and long-term investing.",
+    body: "22-year-old French engineer based in Bordeaux. I build full-stack products, ship AI pipelines, and co-found startups — all while completing my Master's at CESI. Fluent in English, conversational in Spanish, learning Japanese. Passionate about cloud-native systems, generative AI, and long-term investing.",
   },
   experience: {
     title: "Experience",
@@ -92,7 +92,7 @@ const fr = {
   },
   about: {
     title: "À propos",
-    body: "Ingénieur de 22 ans basé à Bordeaux. Je construis des produits full-stack, déploie des pipelines IA et co-fonde des startups — tout en finalisant mon Master à CESI. Anglais courant (TOEIC 935), espagnol conversationnel, japonais en apprentissage. Passionné par les systèmes cloud-native, l'IA générative et l'investissement long terme.",
+    body: "Ingénieur de 22 ans basé à Bordeaux. Je construis des produits full-stack, déploie des pipelines IA et co-fonde des startups — tout en finalisant mon Master à CESI. Anglais courant, espagnol conversationnel, japonais en apprentissage. Passionné par les systèmes cloud-native, l'IA générative et l'investissement long terme.",
   },
   experience: {
     title: "Expérience",
