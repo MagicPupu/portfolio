@@ -176,8 +176,8 @@ export const projects: Project[] = [
     name: "5C&CO Website",
     tech: ["Next.js 15", "TypeScript", "Tailwind", "Vercel"],
     description: {
-      en: "Professional website for a family business. Pastel fuchsia/green palette, Cormorant Garamond + DM Sans typography.",
-      fr: "Site professionnel pour une entreprise familiale. Palette fuchsia/vert pastel, typographie Cormorant Garamond + DM Sans.",
+      en: "Professional website for a family business.",
+      fr: "Site professionnel pour une entreprise familiale.",
     },
     badge: "✅ Shipped",
     color: "#FFE600",
