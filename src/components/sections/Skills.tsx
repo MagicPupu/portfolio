@@ -1,10 +1,44 @@
 "use client"
 
+import {
+  SiPython, SiTypescript, SiJavascript, SiCplusplus, SiSharp,
+  SiReact, SiNextdotjs, SiFlutter, SiTailwindcss,
+  SiNodedotjs, SiGooglecloud, SiDocker, SiKubernetes, SiLinux,
+  SiKalilinux, SiGit, SiStripe, SiMapbox, SiFirebase, SiMongodb, SiVercel,
+} from "react-icons/si"
+import { FaAws } from "react-icons/fa"
+import type { IconType } from "react-icons"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { skillGroups } from "@/lib/data"
 import type { Lang } from "@/lib/i18n"
+
+const SKILL_ICONS: Record<string, IconType> = {
+  Python: SiPython,
+  TypeScript: SiTypescript,
+  JavaScript: SiJavascript,
+  "C++": SiCplusplus,
+  "C#": SiSharp,
+  React: SiReact,
+  "React Native": SiReact,
+  "Next.js": SiNextdotjs,
+  Flutter: SiFlutter,
+  "Tailwind CSS": SiTailwindcss,
+  "Node.js": SiNodedotjs,
+  GCP: SiGooglecloud,
+  AWS: FaAws,
+  Docker: SiDocker,
+  Kubernetes: SiKubernetes,
+  Linux: SiLinux,
+  "Kali Linux": SiKalilinux,
+  Git: SiGit,
+  Stripe: SiStripe,
+  Mapbox: SiMapbox,
+  Firebase: SiFirebase,
+  MongoDB: SiMongodb,
+  Vercel: SiVercel,
+}
 
 export function Skills() {
   const { lang, t } = useLanguage()
@@ -67,8 +101,8 @@ type SkillCardProps = {
   delay: number
 }
 
-
 function SkillCard({ skill, color }: SkillCardProps) {
+  const Icon = SKILL_ICONS[skill.name]
   return (
     <div
       className="flex items-center gap-3 bg-white/[0.04] rounded-xl px-4 py-3 border border-white/[0.07] hover:bg-white/[0.07] hover:border-white/[0.15] transition-all duration-200 cursor-default"
@@ -81,9 +115,9 @@ function SkillCard({ skill, color }: SkillCardProps) {
     >
       <span
         className="size-8 rounded-lg flex items-center justify-center text-base shrink-0"
-        style={{ background: `${color}22` }}
+        style={{ background: `${color}22`, color }}
       >
-        {skill.emoji}
+        {Icon ? <Icon size={18} /> : skill.emoji}
       </span>
       <span className="font-display font-medium text-[0.88rem] text-white/80 leading-tight">
         {skill.name}

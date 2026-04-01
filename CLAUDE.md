@@ -11,7 +11,7 @@
 
 ## STACK
 - Next.js 15 (App Router) · TypeScript strict · Tailwind CSS · shadcn/ui
-- React Hook Form + Zod · Resend · Sanity.io (CMS, optional)
+- React Hook Form + Zod · Resend
 - Deploy: Vercel · Node 20+
 
 ---
@@ -156,7 +156,7 @@ npm run typecheck # tsc --noEmit
 
 ## STACK
 - Next.js 15 (App Router) · TypeScript strict · Tailwind CSS · shadcn/ui
-- React Hook Form + Zod · Resend · Sanity.io (CMS, optional)
+- React Hook Form + Zod · Resend
 - Deploy: Vercel · Node 20+
 
 ---
