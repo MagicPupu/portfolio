@@ -172,16 +172,6 @@ export const projects: Project[] = [
     badge: "🔬 Research",
     color: "#FF7A00",
   },
-  {
-    name: "5C&CO Website",
-    tech: ["Next.js 15", "TypeScript", "Tailwind", "Vercel"],
-    description: {
-      en: "Professional website for a family business.",
-      fr: "Site professionnel pour une entreprise familiale.",
-    },
-    badge: "✅ Shipped",
-    color: "#FFE600",
-  },
 ]
 
 export const skillGroups: SkillGroup[] = [

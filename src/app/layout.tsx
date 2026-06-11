@@ -25,11 +25,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Antoine Pulon · Portfolio",
   description:
-    "Computer Engineering Student · Full Stack · Cloud · AI. Co-founder of Drinki & Pollen. Building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
+    "Computer Science Engineer · Full Stack · Cloud · AI. Co-founder of Drinki. Building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
   openGraph: {
     title: "Antoine Pulon · Portfolio",
     description:
-      "Computer Engineering Student · Full Stack · Cloud · AI. Co-founder of Drinki & Pollen.",
+      "Computer Science Engineer · Full Stack · Cloud · AI. Co-founder of Drinki.",
     type: "website",
   },
 }

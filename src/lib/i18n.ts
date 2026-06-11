@@ -14,7 +14,7 @@ const en = {
     contact: "Contact",
   },
   hero: {
-    title: "Computer Engineering Student · Full Stack · Cloud · AI",
+    title: "Computer Science Engineer · Full Stack · Cloud · AI",
     subtitle:
       "Co-founder of Drinki. Building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
     cta: {
