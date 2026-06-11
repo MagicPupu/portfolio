@@ -143,7 +143,7 @@ export const experiences: Experience[] = [
 export const projects: Project[] = [
   {
     name: "Drinki",
-    tech: ["React Native", "Firebase", "AWS", "MongoDB", "Stripe", "Mapbox"],
+    tech: ["React Native", "Firebase", "AWS", "GCP", "Stripe", "Mapbox"],
     description: {
       en: "B2C/B2B mobile app for nightlife discovery in Bordeaux. Live with real users. Expanding nationally.",
       fr: "App mobile B2C/B2B pour la découverte de bars et clubs à Bordeaux. En production avec de vrais utilisateurs. Expansion nationale en cours.",
@@ -219,7 +219,6 @@ export const skillGroups: SkillGroup[] = [
       { name: "LLMs",           emoji: "🤖", level: 80 },
       { name: "LlamaIndex",     emoji: "🦙", level: 75 },
       { name: "Kedro",          emoji: "🔁", level: 70 },
-      { name: "TableLLM",       emoji: "📊", level: 65 },
       { name: "Machine Learning", emoji: "🧠", level: 70 },
       { name: "Deep Learning",  emoji: "🔬", level: 65 },
       { name: "Power BI",       emoji: "📈", level: 75 },

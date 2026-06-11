@@ -15,9 +15,6 @@ export function Footer() {
         </span>
         .{" "}
         {lang === "en" ? "All rights reserved." : "Tous droits réservés."}{" "}
-        <span className="text-white/15">
-          · Built with Next.js · Tailwind · shadcn/ui
-        </span>
       </p>
     </footer>
   )
