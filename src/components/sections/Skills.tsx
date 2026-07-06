@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   SiPython, SiTypescript, SiJavascript, SiCplusplus, SiSharp,
   SiReact, SiNextdotjs, SiFlutter, SiTailwindcss,
@@ -12,7 +13,6 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { skillGroups } from "@/lib/data"
-import type { Lang } from "@/lib/i18n"
 
 const SKILL_ICONS: Record<string, IconType> = {
   Python: SiPython,
@@ -40,88 +40,129 @@ const SKILL_ICONS: Record<string, IconType> = {
   Vercel: SiVercel,
 }
 
+const allSkills = skillGroups.flatMap((g) => g.skills)
+const half = Math.ceil(allSkills.length / 2)
+const row1 = allSkills.slice(0, half)
+const row2 = allSkills.slice(half)
+
+type Skill = { name: string; emoji: string }
+
+function SkillChip({ skill }: { skill: Skill }) {
+  const Icon = SKILL_ICONS[skill.name]
+  return (
+    <div className="flex items-center gap-2.5 px-6 shrink-0">
+      <span className="text-white/45 flex items-center" aria-hidden="true">
+        {Icon ? <Icon size={14} /> : null}
+      </span>
+      <span className="font-mono text-sm text-white/60 whitespace-nowrap">{skill.name}</span>
+      <span className="font-mono text-white/25 ml-2 text-base select-none">·</span>
+    </div>
+  )
+}
+
+function SkillGridChip({ skill }: { skill: Skill }) {
+  const Icon = SKILL_ICONS[skill.name]
+  return (
+    <div className="glass-card rounded-xl px-4 py-3 flex items-center gap-3 hover:border-white/20 transition-colors duration-150">
+      <span className="text-white/50 flex items-center shrink-0" aria-hidden="true">
+        {Icon ? <Icon size={15} /> : null}
+      </span>
+      <span className="font-mono text-xs text-white/65 whitespace-nowrap">{skill.name}</span>
+    </div>
+  )
+}
+
 export function Skills() {
   const { lang, t } = useLanguage()
   const { ref, inView } = useInView()
+  const [mode, setMode] = useState<"marquee" | "grid">("marquee")
 
   return (
-    <section id="skills" className="py-20 bg-[#0d0d0d]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-8">
-        <div
-          ref={ref}
-          className={cn(
-            "transition-all duration-700 ease-out",
-            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          )}
-        >
-          {/* Header */}
-          <p className="font-display text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-3 text-center">
-            {lang === "en" ? "My toolkit" : "Ma boîte à outils"}
-          </p>
+    <section id="skills" className="py-28 border-t border-white/[0.08] overflow-hidden">
+      <div
+        ref={ref}
+        className={cn(
+          "transition-all duration-700 ease-out",
+          inView ? "opacity-100" : "opacity-0"
+        )}
+      >
+        {/* Header + toggle */}
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 mb-14 flex items-end justify-between gap-4">
           <h2
-            className="font-display font-bold tracking-tight leading-[1.1] mb-16 text-center"
-            style={{ fontSize: "clamp(2.2rem,5vw,4rem)" }}
+            className="font-display font-bold tracking-tight leading-[0.95] text-white"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
           >
             {t.skills.title}
           </h2>
 
-          <div className="flex flex-col gap-14">
-            {skillGroups.map((group, gi) => (
-              <div key={gi}>
-                <p
-                  className="font-display text-[0.75rem] font-bold tracking-[0.18em] uppercase mb-5 pl-0.5"
-                  style={{ color: `${group.color}99` }}
-                >
-                  {group.category[lang as Lang]}
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
-                  {group.skills.map((skill, si) => (
-                    <SkillCard
-                      key={si}
-                      skill={skill}
-                      color={group.color}
-                      inView={inView}
-                      delay={si * 80}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="flex items-center gap-1 glass-card rounded-lg p-1 shrink-0">
+            <button
+              onClick={() => setMode("marquee")}
+              className={cn(
+                "font-mono text-xs px-3 py-1.5 rounded-md transition-all duration-150",
+                mode === "marquee"
+                  ? "bg-white/10 text-white"
+                  : "text-white/35 hover:text-white/60"
+              )}
+              aria-pressed={mode === "marquee"}
+            >
+              {lang === "en" ? "Live" : "Live"}
+            </button>
+            <button
+              onClick={() => setMode("grid")}
+              className={cn(
+                "font-mono text-xs px-3 py-1.5 rounded-md transition-all duration-150",
+                mode === "grid"
+                  ? "bg-white/10 text-white"
+                  : "text-white/35 hover:text-white/60"
+              )}
+              aria-pressed={mode === "grid"}
+            >
+              {lang === "en" ? "All" : "Tous"}
+            </button>
           </div>
         </div>
+
+        {/* Marquee mode */}
+        {mode === "marquee" && (
+          <>
+            <div className="flex border-y border-white/[0.08] py-5 overflow-hidden">
+              <div className="flex min-w-max animate-marquee-left" aria-label={lang === "en" ? "Tech skills" : "Compétences techniques"}>
+                {[...row1, ...row1].map((skill, i) => (
+                  <SkillChip key={i} skill={skill} />
+                ))}
+              </div>
+            </div>
+            <div className="flex border-b border-white/[0.08] py-5 overflow-hidden">
+              <div className="flex min-w-max animate-marquee-right">
+                {[...row2, ...row2].map((skill, i) => (
+                  <SkillChip key={i} skill={skill} />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Grid mode */}
+        {mode === "grid" && (
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="flex flex-col gap-10">
+              {skillGroups.map((group) => (
+                <div key={group.category.en}>
+                  <p className="font-mono text-xs text-white/35 uppercase tracking-[0.15em] mb-4">
+                    {group.category[lang as "en" | "fr"]}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <SkillGridChip key={skill.name} skill={skill} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
-  )
-}
-
-type SkillCardProps = {
-  skill: { name: string; emoji: string; level: number }
-  color: string
-  inView: boolean
-  delay: number
-}
-
-function SkillCard({ skill, color }: SkillCardProps) {
-  const Icon = SKILL_ICONS[skill.name]
-  return (
-    <div
-      className="flex items-center gap-3 bg-white/[0.04] rounded-xl px-4 py-3 border border-white/[0.07] hover:bg-white/[0.07] hover:border-white/[0.15] transition-all duration-200 cursor-default"
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = `${color}60`
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.07)"
-      }}
-    >
-      <span
-        className="size-8 rounded-lg flex items-center justify-center text-base shrink-0"
-        style={{ background: `${color}22`, color }}
-      >
-        {Icon ? <Icon size={18} /> : skill.emoji}
-      </span>
-      <span className="font-display font-medium text-[0.88rem] text-white/80 leading-tight">
-        {skill.name}
-      </span>
-    </div>
   )
 }

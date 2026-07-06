@@ -1,5 +1,8 @@
 import { Resend } from "resend"
 import { z } from "zod"
+import { EMAIL_FROM } from "@/lib/email/config"
+
+export const dynamic = "force-dynamic"
 
 const ContactSchema = z.object({
   name: z.string().min(1),
@@ -7,9 +10,8 @@ const ContactSchema = z.object({
   message: z.string().min(1),
 })
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(req: Request) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const body = ContactSchema.safeParse(await req.json())
   if (!body.success) {
     return Response.json({ error: body.error }, { status: 400 })
@@ -18,7 +20,7 @@ export async function POST(req: Request) {
   const { name, email, message } = body.data
 
   const { error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL as string,
+    from: EMAIL_FROM,
     to: "antoine.pulon@gmail.com",
     replyTo: email,
     subject: `Portfolio contact — ${name}`,

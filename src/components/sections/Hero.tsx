@@ -1,145 +1,190 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { useLanguage } from "@/contexts/LanguageContext"
-import { heroRoles } from "@/lib/i18n"
+import type { Lang } from "@/lib/i18n"
 
-function useTypewriter(words: string[], speed = 80, pause = 2200) {
-  const [display, setDisplay] = useState("")
-  const [wordIdx, setWordIdx] = useState(0)
-  const [deleting, setDeleting] = useState(false)
+const ROLES = {
+  en: ["Full Stack Engineer", "AI Engineer", "Cloud Architect", "Startup Co-Founder"],
+  fr: ["Ingénieur Full Stack", "Ingénieur IA", "Architecte Cloud", "Co-Fondateur Startup"],
+}
+
+function useTypewriter(strings: string[], resetKey: string, typingSpeed = 75, deletingSpeed = 38, pauseMs = 2000) {
+  const [displayed, setDisplayed] = useState("")
+  const [index, setIndex] = useState(0)
+  const [phase, setPhase] = useState<"typing" | "deleting">("typing")
+  const [prevResetKey, setPrevResetKey] = useState(resetKey)
+
+  if (resetKey !== prevResetKey) {
+    setPrevResetKey(resetKey)
+    setDisplayed("")
+    setIndex(0)
+    setPhase("typing")
+  }
 
   useEffect(() => {
-    const current = words[wordIdx] ?? ""
-    let t: ReturnType<typeof setTimeout>
+    const current = strings[index % strings.length]
+    let timer: ReturnType<typeof setTimeout>
 
-    if (!deleting && display === current) {
-      t = setTimeout(() => setDeleting(true), pause)
-    } else if (deleting && display === "") {
-      t = setTimeout(() => {
-        setDeleting(false)
-        setWordIdx((i) => (i + 1) % words.length)
-      }, 0)
+    if (phase === "typing") {
+      if (displayed.length < current.length) {
+        timer = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), typingSpeed)
+      } else {
+        timer = setTimeout(() => setPhase("deleting"), pauseMs)
+      }
     } else {
-      t = setTimeout(
-        () =>
-          setDisplay(
-            deleting
-              ? current.slice(0, display.length - 1)
-              : current.slice(0, display.length + 1)
-          ),
-        deleting ? speed / 2 : speed
-      )
+      if (displayed.length > 0) {
+        timer = setTimeout(() => setDisplayed(displayed.slice(0, -1)), deletingSpeed)
+      } else {
+        timer = setTimeout(() => {
+          setIndex((i) => (i + 1) % strings.length)
+          setPhase("typing")
+        }, 0)
+      }
     }
-    return () => clearTimeout(t)
-  }, [display, deleting, wordIdx, words, speed, pause])
 
-  return display
+    return () => clearTimeout(timer)
+  }, [displayed, phase, index, strings, typingSpeed, deletingSpeed, pauseMs])
+
+  return displayed
 }
+
+const bentoStats = [
+  { val: "3+",  label: { en: "Years exp.",    fr: "Ans d'exp." } },
+  { val: "10+", label: { en: "Technologies",  fr: "Technologies" } },
+  { val: "1",   label: { en: "Startup",       fr: "Startup" } },
+  { val: "4",   label: { en: "Languages",     fr: "Langues" } },
+]
 
 export function Hero() {
   const { lang, t } = useLanguage()
-  const roles = heroRoles[lang]
-  const typed = useTypewriter(roles)
-
-  const firstName = "Antoine"
-  const lastName = "Pulon"
-  const firstChars = firstName.split("")
+  const role = useTypewriter(ROLES[lang as Lang], lang)
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 pt-24 pb-16 overflow-hidden bg-[#0a0a0f]"
+      className="relative min-h-screen flex flex-col justify-center px-6 sm:px-10 lg:px-16 pt-24 pb-20 overflow-hidden"
     >
-      {/* Drift blobs */}
+      {/* Dot grid */}
+      <div className="absolute inset-0 bg-dot-grid pointer-events-none" aria-hidden="true" />
+
+      {/* Glow orb — soft white bloom */}
       <div
-        className="absolute rounded-full opacity-[0.22] blur-[100px] pointer-events-none animate-drift"
+        className="absolute -top-40 -left-40 w-[700px] h-[700px] rounded-full pointer-events-none animate-glow-pulse"
+        style={{ background: "radial-gradient(circle, rgba(255,255,255,0.035) 0%, transparent 65%)" }}
         aria-hidden="true"
-        style={{ width: 500, height: 500, background: "#8B5CF6", top: -100, left: -150, animationDuration: "22s" }}
       />
+      {/* Glow orb — blue depth */}
       <div
-        className="absolute rounded-full opacity-[0.18] blur-[90px] pointer-events-none animate-drift"
+        className="absolute top-1/2 right-0 w-[500px] h-[500px] rounded-full pointer-events-none animate-glow-pulse"
+        style={{ background: "radial-gradient(circle, rgba(120,140,255,0.05) 0%, transparent 65%)", animationDelay: "2.5s" }}
         aria-hidden="true"
-        style={{ width: 400, height: 400, background: "#06b6d4", bottom: -80, right: -100, animationDuration: "18s", animationDirection: "reverse" }}
-      />
-      <div
-        className="absolute rounded-full opacity-[0.15] blur-[90px] pointer-events-none animate-drift"
-        aria-hidden="true"
-        style={{ width: 300, height: 300, background: "#a78bfa", top: "30%", left: "55%", animationDuration: "26s" }}
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto w-full">
-        {/* Eyebrow */}
-        <p className="font-display text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-cyan-400 mb-6 animate-fade-in-up">
-          {lang === "en" ? "Available for opportunities" : "Disponible pour de nouvelles opportunités"}
-        </p>
+      <div className="relative z-10 max-w-6xl w-full mx-auto grid lg:grid-cols-[1fr_340px] gap-12 xl:gap-20 items-center">
 
-        {/* Name — letter by letter animation */}
-        <h1
-          className="font-display font-bold leading-[0.95] tracking-[-0.04em] mb-6"
-          style={{ fontSize: "clamp(3.5rem,11vw,10rem)" }}
-        >
-          <span className="block">
-            {firstChars.map((char, i) => (
-              <span
-                key={i}
-                className="inline-block animate-char-in"
-                style={{ animationDelay: `${i * 55}ms` }}
-              >
-                {char}
-              </span>
+        {/* LEFT — editorial content */}
+        <div>
+          <div className="flex items-center gap-2.5 mb-10 animate-fade-in-up">
+            <span className="relative flex size-2" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping-slow" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+            </span>
+            <span className="font-mono text-xs text-white/60 tracking-wide">
+              {lang === "en" ? "Available for opportunities" : "Disponible pour de nouvelles opportunités"}
+            </span>
+          </div>
+
+          <h1
+            className="font-display font-bold leading-[0.88] tracking-[-0.04em] mb-8 animate-fade-in-up animation-delay-100"
+            style={{ fontSize: "clamp(4rem, 11vw, 8.5rem)" }}
+          >
+            <span className="block text-white">Antoine</span>
+            <span className="block text-accent">Pulon.</span>
+          </h1>
+
+          <p
+            className="font-display text-white/60 font-medium mb-3 animate-fade-in-up animation-delay-200 flex items-center"
+            style={{ fontSize: "clamp(1rem, 2vw, 1.35rem)" }}
+            aria-label={ROLES[lang as Lang].join(", ")}
+          >
+            <span className="text-white/30 mr-2">{lang === "en" ? "I'm a " : "Je suis "}</span>
+            {role}
+            <span
+              className="inline-block w-[2px] ml-[3px] bg-white/50 animate-cursor-blink"
+              style={{ height: "0.85em" }}
+              aria-hidden="true"
+            />
+          </p>
+
+          <p className="font-mono text-xs text-white/45 mb-14 animate-fade-in-up animation-delay-200 tracking-wide">
+            Bordeaux, France
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 animate-fade-in-up animation-delay-300">
+            <a
+              href="#projects"
+              className="inline-flex items-center gap-2 font-display font-bold text-sm px-6 py-3 bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+            >
+              {t.hero.cta.work} ↓
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 font-display font-bold text-sm px-6 py-3 border border-white/30 text-white/70 hover:text-white hover:border-white/60 transition-colors"
+            >
+              {t.hero.cta.contact} →
+            </a>
+          </div>
+        </div>
+
+        {/* RIGHT — bento cards (desktop only) */}
+        <div className="hidden lg:flex flex-col gap-3 animate-fade-in-up animation-delay-400">
+
+          {/* Stats 2×2 */}
+          <div className="glass-card rounded-2xl p-6 grid grid-cols-2 gap-x-8 gap-y-6">
+            {bentoStats.map(({ val, label }) => (
+              <div key={val}>
+                <p
+                  className="font-display font-bold tracking-tight text-accent leading-none"
+                  style={{ fontSize: "1.9rem" }}
+                >
+                  {val}
+                </p>
+                <p className="font-mono text-[0.63rem] text-white/35 mt-1">{label[lang as Lang]}</p>
+              </div>
             ))}
-          </span>
-          <span
-            className="block bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent [-webkit-text-fill-color:transparent] animate-char-in"
-            style={{ animationDelay: `${firstChars.length * 55 + 100}ms` }}
-          >
-            {lastName}
-          </span>
-        </h1>
+          </div>
 
-        {/* Typewriter role */}
-        <div
-          className="font-display font-normal text-white/65 flex items-center justify-center gap-2 mb-6 animate-fade-in-up animation-delay-400"
-          style={{ fontSize: "clamp(1.1rem,2.5vw,1.7rem)" }}
-        >
-          <span className="text-white/40">{lang === "en" ? "I'm a" : "Je suis"}</span>
-          <span
-            className="text-cyan-300 font-semibold border-r-[3px] border-cyan-400 pr-1 animate-blink"
-          >
-            {typed}
-          </span>
+          {/* Location + availability */}
+          <div className="glass-card rounded-2xl p-5 flex items-center justify-between gap-4">
+            <div>
+              <p className="font-mono text-[0.58rem] text-white/30 uppercase tracking-[0.18em] mb-1.5">
+                {lang === "en" ? "Location" : "Localisation"}
+              </p>
+              <p className="font-display text-sm text-white font-semibold">Bordeaux, France</p>
+              <p className="font-mono text-[0.65rem] text-white/35 mt-0.5">UTC+1</p>
+            </div>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-400/10 rounded-full border border-emerald-400/20 shrink-0">
+              <span className="relative flex size-1.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70 animate-ping-slow" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
+              </span>
+              <span className="font-mono text-[0.65rem] text-emerald-400">Open</span>
+            </div>
+          </div>
         </div>
-
-        {/* Subtitle */}
-        <p className="text-white/60 max-w-xl mx-auto leading-relaxed mb-10 text-base sm:text-lg animate-fade-in-up animation-delay-400">
-          {t.hero.subtitle}
-        </p>
-
-        {/* CTA buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-14 animate-fade-in-up animation-delay-600">
-          <a
-            href="#projects"
-            className="inline-flex items-center gap-2 font-display font-bold text-base px-8 py-4 rounded-full bg-linear-to-r from-violet-500 to-cyan-500 text-white shadow-lg shadow-violet-500/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-violet-500/35 active:translate-y-0 transition-all"
-          >
-            {t.hero.cta.work} ↓
-          </a>
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 font-display font-bold text-base px-8 py-4 rounded-full bg-transparent text-white border border-white/20 hover:bg-white/5 hover:border-white/40 hover:-translate-y-0.5 transition-all"
-          >
-            {t.hero.cta.contact}
-          </a>
-        </div>
-
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute flex flex-col items-center gap-1 opacity-50 animate-scroll-bounce z-10" style={{ bottom: "2rem", left: "50%", transform: "translateX(-50%)" }}>
-        <span className="font-display text-[0.7rem] tracking-[0.15em] uppercase">Scroll</span>
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-white">
-          <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <div
+        className="absolute bottom-8 left-6 sm:left-10 lg:left-16 flex items-center gap-2 opacity-25 animate-scroll-bounce"
+        aria-hidden="true"
+      >
+        <svg width="14" height="20" viewBox="0 0 14 20" fill="none" className="text-white">
+          <rect x="1" y="1" width="12" height="18" rx="6" stroke="currentColor" strokeWidth="1.5" />
+          <rect x="6" y="4" width="2" height="5" rx="1" fill="currentColor" />
         </svg>
+        <span className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-white">Scroll</span>
       </div>
     </section>
   )
