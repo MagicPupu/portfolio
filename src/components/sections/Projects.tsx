@@ -6,82 +6,145 @@ import { cn } from "@/lib/utils"
 import { projects } from "@/lib/data"
 import type { Lang } from "@/lib/i18n"
 
+function stripEmoji(str: string): string {
+  return str
+    .replace(/[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\uFE0F\u200D]/gu, "")
+    .trim()
+}
+
 export function Projects() {
   const { lang, t } = useLanguage()
   const { ref, inView } = useInView()
 
+  const [featured, ...rest] = projects
+
   return (
-    <section id="projects" className="py-28 bg-[#111]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-8">
-        <div
-          ref={ref}
-          className={cn(
-            "transition-all duration-700 ease-out",
-            inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          )}
+    <section id="projects" className="py-28 border-t border-white/[0.08]">
+      <div
+        ref={ref}
+        className={cn(
+          "max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 transition-all duration-700 ease-out",
+          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        )}
+      >
+        <h2
+          className="font-display font-bold tracking-tight leading-[0.95] text-white mb-14"
+          style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
         >
-          {/* Header */}
-          <p className="font-display text-xs font-bold tracking-[0.2em] uppercase text-white/40 mb-3">
-            {lang === "en" ? "What I've built" : "Ce que j'ai construit"}
-          </p>
-          <h2
-            className="font-display font-bold tracking-tight leading-[1.1] mb-12"
-            style={{ fontSize: "clamp(2.2rem,5vw,4rem)" }}
-          >
-            {t.projects.title}
-          </h2>
+          {t.projects.title}
+        </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {projects.map((project, i) => (
-              <div
-                key={i}
-                className="group bg-[#161616] border border-white/[0.06] rounded-[20px] overflow-hidden hover:-translate-y-1.5 hover:shadow-[0_0_30px_-5px_var(--card-glow)] transition-all duration-200"
-                style={{ "--card-glow": project.color } as React.CSSProperties}
+        {/* Featured — full width */}
+        {featured && (
+          <div className="relative border border-white/[0.08] p-8 sm:p-12 mb-3 hover:border-white/20 transition-all duration-300 group overflow-hidden hover:bg-white/[0.01]">
+            {/* Color accent line */}
+            <div
+              className="absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 opacity-60 group-hover:opacity-100"
+              style={{ background: `linear-gradient(90deg, ${featured.color} 0%, ${featured.color}30 100%)` }}
+            />
+
+            <div className="flex items-center justify-between mb-8">
+              <span className="font-mono text-xs text-white/20">01</span>
+              <span className="font-mono text-xs font-medium" style={{ color: featured.color + "99" }}>
+                {stripEmoji(featured.badge)}
+              </span>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 md:gap-14 items-end">
+              <h3
+                className="font-display font-bold text-white group-hover:text-accent transition-colors duration-200 tracking-tight leading-[0.95]"
+                style={{ fontSize: "clamp(2.2rem, 5vw, 3.8rem)" }}
               >
-                {/* Colored top bar */}
-                <div className="h-1.5" style={{ background: project.color }} />
+                {featured.name[lang as Lang]}
+              </h3>
 
-                <div className="p-6 flex flex-col gap-4">
-                  {/* Badge */}
-                  <span
-                    className="font-display text-xs font-semibold px-3 py-1 rounded-full border w-fit"
-                    style={{ color: project.color, borderColor: `${project.color}40`, background: `${project.color}12` }}
-                  >
-                    {project.badge}
-                  </span>
-
-                  {/* Name */}
-                  <div>
-                    <h3 className="font-display font-bold text-xl tracking-tight text-white group-hover:text-[var(--card-glow)] transition-colors">
-                      {project.name}
-                    </h3>
-                    {project.subtitle && (
-                      <span className="font-display text-xs text-white/35 mt-0.5 block">
-                        {project.subtitle}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-white/60 text-sm leading-[1.65] flex-1">
-                    {project.description[lang as Lang]}
-                  </p>
-
-                  {/* Tech tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/[0.07]">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="font-display text-[0.73rem] font-semibold px-2.5 py-1 rounded-full bg-white/[0.07] text-white/80 border border-white/10"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+              <div>
+                <p className="text-white/65 text-sm leading-[1.85] mb-7">
+                  {featured.description[lang as Lang]}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {featured.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="font-mono text-xs px-2.5 py-1 border border-white/[0.12] text-white/50 transition-colors duration-200 group-hover:border-white/20"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
+                {featured.link && (
+                  <a
+                    href={featured.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-6 font-mono text-xs text-white/40 hover:text-accent transition-colors duration-150"
+                  >
+                    View project →
+                  </a>
+                )}
               </div>
-            ))}
+            </div>
           </div>
+        )}
+
+        {/* Rest — side by side */}
+        <div className="grid md:grid-cols-2 gap-3">
+          {rest.map((project, i) => (
+            <div
+              key={i}
+              className="relative border border-white/[0.08] p-8 hover:border-white/20 transition-all duration-300 group overflow-hidden hover:bg-white/[0.01]"
+            >
+              {/* Color accent line */}
+              <div
+                className="absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 opacity-40 group-hover:opacity-80"
+                style={{ background: `linear-gradient(90deg, ${project.color} 0%, ${project.color}20 100%)` }}
+              />
+
+              <div className="flex items-center justify-between mb-8">
+                <span className="font-mono text-xs text-white/20">0{i + 2}</span>
+                <span className="font-mono text-xs" style={{ color: project.color + "80" }}>
+                  {stripEmoji(project.badge)}
+                </span>
+              </div>
+
+              <h3
+                className="font-display font-bold text-white group-hover:text-accent transition-colors duration-200 tracking-tight leading-[1.0] mb-2"
+                style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)" }}
+              >
+                {project.name[lang as Lang]}
+              </h3>
+
+              {project.subtitle && (
+                <p className="font-mono text-xs text-white/45 mb-4">{project.subtitle}</p>
+              )}
+
+              <p className="text-white/65 text-sm leading-[1.85] mb-7">
+                {project.description[lang as Lang]}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="font-mono text-xs px-2.5 py-1 border border-white/[0.12] text-white/50 transition-colors duration-200 group-hover:border-white/20"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-6 font-mono text-xs text-white/40 hover:text-accent transition-colors duration-150"
+                >
+                  View project →
+                </a>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>

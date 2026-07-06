@@ -9,7 +9,7 @@ export type Experience = {
 }
 
 export type Project = {
-  name: string
+  name: Bilingual
   subtitle?: string
   tech: string[]
   description: Bilingual
@@ -142,7 +142,7 @@ export const experiences: Experience[] = [
 
 export const projects: Project[] = [
   {
-    name: "Drinki",
+    name: { en: "Drinki", fr: "Drinki" },
     tech: ["React Native", "Firebase", "AWS", "GCP", "Stripe", "Mapbox"],
     description: {
       en: "B2C/B2B mobile app for nightlife discovery in Bordeaux. Live with real users. Expanding nationally.",
@@ -152,7 +152,7 @@ export const projects: Project[] = [
     color: "#00F5C4",
   },
   {
-    name: "Projet de fin d'études",
+    name: { en: "End of Studies Project", fr: "Projet de fin d'études" },
     subtitle: "ArianeGroup",
     tech: ["LLM", "Function Calling", "Python"],
     description: {
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     color: "#00B4FF",
   },
   {
-    name: "BPH Data Pipeline",
+    name: { en: "BPH Data Pipeline", fr: "BPH Data Pipeline" },
     tech: ["Kedro", "LlamaIndex", "TableLLM"],
     description: {
       en: "Stateless medical data integration pipeline. GDPR-compliant. Automated structure extraction from CSV files.",
