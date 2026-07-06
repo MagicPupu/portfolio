@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useMemo } from "react"
+import { useState, useEffect, useMemo, useRef } from "react"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { cn } from "@/lib/utils"
 import type { Lang } from "@/lib/i18n"
@@ -11,8 +11,7 @@ export function Navbar() {
   const { lang, setLang, t } = useLanguage()
   const [active, setActive] = useState<string>("about")
   const [mobileOpen, setMobileOpen] = useState(false)
-  const linksContainerRef = useRef<HTMLUListElement>(null)
-  const pillRef = useRef<HTMLDivElement>(null)
+  const [scrolled, setScrolled] = useState(false)
   const scrollingTo = useRef<string | null>(null)
   const scrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -24,7 +23,6 @@ export function Navbar() {
     { id: "contact",    label: t.nav.contact },
   ], [t.nav])
 
-  // Track active section on scroll
   useEffect(() => {
     const observers: IntersectionObserver[] = []
     SECTION_IDS.forEach((id) => {
@@ -36,7 +34,7 @@ export function Navbar() {
           if (scrollingTo.current !== null && scrollingTo.current !== id) return
           setActive(id)
         },
-        { threshold: 0, rootMargin: "-60px 0px -35% 0px" }
+        { threshold: 0, rootMargin: "-56px 0px -35% 0px" }
       )
       obs.observe(el)
       observers.push(obs)
@@ -44,17 +42,11 @@ export function Navbar() {
     return () => observers.forEach((o) => o.disconnect())
   }, [])
 
-  // Move sliding pill to active link
   useEffect(() => {
-    const container = linksContainerRef.current
-    const pill = pillRef.current
-    if (!container || !pill) return
-    const idx = links.findIndex((l) => l.id === active)
-    const linkEl = container.querySelectorAll("a")[idx] as HTMLElement | undefined
-    if (!linkEl) return
-    pill.style.left = `${linkEl.offsetLeft}px`
-    pill.style.width = `${linkEl.offsetWidth}px`
-  }, [active, links])
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   const handleNavClick = (id: string) => {
     setActive(id)
@@ -63,49 +55,51 @@ export function Navbar() {
     scrollTimer.current = setTimeout(() => { scrollingTo.current = null }, 1000)
   }
 
-  const toggleLang = () => {
-    const next: Lang = lang === "en" ? "fr" : "en"
-    setLang(next)
-  }
+  const toggleLang = () => setLang(lang === "en" ? "fr" : "en" as Lang)
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0a0a0f]/80 border-b border-white/[0.07] px-4 sm:px-8 h-16 flex items-center justify-between">
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 h-14 flex items-center justify-between px-6 sm:px-10 lg:px-16 transition-all duration-300",
+          scrolled
+            ? "bg-[#080808]/95 border-b border-white/[0.08] backdrop-blur-sm"
+            : "bg-transparent"
+        )}
+      >
         {/* Logo */}
         <a
           href="#"
-          className="font-display font-bold text-xl tracking-tight bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent"
+          onClick={() => handleNavClick("about")}
+          className="font-display font-bold text-base text-white tracking-tight shrink-0"
         >
-          AP<span className="text-white/60">.</span>
+          AP<span className="text-accent">.</span>
         </a>
 
-        {/* Desktop nav links */}
-        <ul ref={linksContainerRef} className="hidden md:flex items-center gap-0.5 relative">
-          <div
-            ref={pillRef}
-            className="absolute top-1/2 -translate-y-1/2 h-9 bg-violet-600/80 rounded-full pointer-events-none z-0 transition-all duration-350 ease-in-out"
-          />
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-7" aria-label="Main navigation">
           {links.map((link) => (
-            <li key={link.id}>
-              <a
-                href={`#${link.id}`}
-                onClick={() => handleNavClick(link.id)}
-                className={cn(
-                  "relative z-10 px-4 py-2 text-sm font-display font-medium rounded-full transition-colors duration-200 whitespace-nowrap block",
-                  active === link.id ? "text-white" : "text-white/60 hover:text-white"
-                )}
-              >
-                {link.label}
-              </a>
-            </li>
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={() => handleNavClick(link.id)}
+              className={cn(
+                "font-display text-sm font-medium transition-colors duration-150",
+                active === link.id
+                  ? "text-accent"
+                  : "text-white/40 hover:text-white"
+              )}
+            >
+              {link.label}
+            </a>
           ))}
-        </ul>
+        </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           <button
             onClick={toggleLang}
-            className="px-3 py-1 rounded-full text-xs font-display font-semibold border border-white/20 text-white/60 hover:bg-white/10 hover:text-white transition-all"
+            className="font-mono text-xs text-white/40 hover:text-white transition-colors"
             aria-label="Toggle language"
           >
             {lang === "en" ? "FR" : "EN"}
@@ -113,21 +107,37 @@ export function Navbar() {
 
           <a
             href="#contact"
-            className="hidden md:inline-block bg-linear-to-r from-violet-500 to-violet-600 text-white font-display font-semibold text-sm px-5 py-2 rounded-full shadow-lg shadow-violet-500/20 hover:-translate-y-px hover:shadow-violet-500/30 active:translate-y-0 transition-all"
+            onClick={() => handleNavClick("contact")}
+            className="hidden md:inline-block font-display text-sm font-semibold text-white/40 hover:text-white transition-colors"
           >
-            {lang === "en" ? "Hire me ✦" : "Contactez-moi ✦"}
+            {lang === "en" ? "Contact →" : "Contact →"}
           </a>
 
           {/* Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col gap-1.25 p-1"
+            className="md:hidden flex flex-col gap-[5px] p-1 cursor-pointer"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
           >
-            <span className={cn("block w-6 h-[2.5px] bg-white rounded-sm transition-all duration-300", mobileOpen && "rotate-45 translate-y-[7.5px]")} />
-            <span className={cn("block w-6 h-[2.5px] bg-white rounded-sm transition-all duration-300", mobileOpen && "opacity-0")} />
-            <span className={cn("block w-6 h-[2.5px] bg-white rounded-sm transition-all duration-300", mobileOpen && "-rotate-45 -translate-y-[7.5px]")} />
+            <span
+              className={cn(
+                "block w-5 h-[1.5px] bg-white rounded-sm transition-all duration-200",
+                mobileOpen && "rotate-45 translate-y-[6.5px]"
+              )}
+            />
+            <span
+              className={cn(
+                "block w-5 h-[1.5px] bg-white rounded-sm transition-all duration-200",
+                mobileOpen && "opacity-0"
+              )}
+            />
+            <span
+              className={cn(
+                "block w-5 h-[1.5px] bg-white rounded-sm transition-all duration-200",
+                mobileOpen && "-rotate-45 -translate-y-[6.5px]"
+              )}
+            />
           </button>
         </div>
       </header>
@@ -144,7 +154,7 @@ export function Navbar() {
       {/* Mobile drawer */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-screen w-[min(320px,85vw)] bg-[#0e0e16] border-l border-l-violet-500/40 z-50 flex flex-col justify-center items-center gap-6 md:hidden transition-transform duration-300 ease-in-out",
+          "fixed top-0 right-0 h-screen w-[min(280px,85vw)] bg-[#080808] border-l border-white/[0.08] z-50 flex flex-col justify-center items-start px-10 gap-7 md:hidden transition-transform duration-300 ease-in-out",
           mobileOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -153,18 +163,20 @@ export function Navbar() {
             key={link.id}
             href={`#${link.id}`}
             onClick={() => { handleNavClick(link.id); setMobileOpen(false) }}
-            className="font-display text-2xl font-bold text-white hover:text-violet-400 transition-colors"
+            className={cn(
+              "font-display text-2xl font-bold transition-colors",
+              active === link.id ? "text-accent" : "text-white/50 hover:text-white"
+            )}
           >
             {link.label}
           </a>
         ))}
-        <a
-          href="mailto:antoine.pulon@gmail.com"
-          onClick={() => setMobileOpen(false)}
-          className="mt-4 bg-linear-to-r from-violet-500 to-violet-600 text-white font-display font-bold px-6 py-3 rounded-full shadow-lg shadow-violet-500/20 hover:-translate-y-px transition-all text-base"
+        <button
+          onClick={() => { toggleLang(); setMobileOpen(false) }}
+          className="font-mono text-xs text-white/30 hover:text-white transition-colors mt-6 uppercase tracking-widest"
         >
-          {lang === "en" ? "Hire me ✦" : "Contactez-moi ✦"}
-        </a>
+          {lang === "en" ? "Passer en FR" : "Switch to EN"}
+        </button>
       </div>
     </>
   )

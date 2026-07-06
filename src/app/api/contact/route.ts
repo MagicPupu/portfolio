@@ -1,15 +1,16 @@
 import { Resend } from "resend"
 import { z } from "zod"
 
+export const dynamic = "force-dynamic"
+
 const ContactSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   message: z.string().min(1),
 })
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(req: Request) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const body = ContactSchema.safeParse(await req.json())
   if (!body.success) {
     return Response.json({ error: body.error }, { status: 400 })
