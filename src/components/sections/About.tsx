@@ -2,7 +2,7 @@
 
 import { useLanguage } from "@/contexts/LanguageContext"
 import { useInView } from "@/hooks/useInView"
-import { cn } from "@/lib/utils"
+import { cn, getAge } from "@/lib/utils"
 import type { Lang } from "@/lib/i18n"
 
 const stats = [
@@ -38,7 +38,7 @@ export function About() {
           {/* Bio — 3/4 width on lg */}
           <div className="sm:col-span-2 lg:col-span-3 glass-card rounded-2xl p-8">
             <p className="text-white/70 leading-[1.85]" style={{ fontSize: "clamp(0.95rem, 1.15vw, 1.08rem)" }}>
-              {t.about.body}
+              {t.about.body.replace("{age}", String(getAge()))}
             </p>
           </div>
 
