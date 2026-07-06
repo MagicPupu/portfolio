@@ -7,7 +7,9 @@ import { projects } from "@/lib/data"
 import type { Lang } from "@/lib/i18n"
 
 function stripEmoji(str: string): string {
-  return str.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "").trim()
+  return str
+    .replace(/[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\uFE0F\u200D]/gu, "")
+    .trim()
 }
 
 export function Projects() {
