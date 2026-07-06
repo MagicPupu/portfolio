@@ -13,12 +13,14 @@ function useTypewriter(strings: string[], resetKey: string, typingSpeed = 75, de
   const [displayed, setDisplayed] = useState("")
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<"typing" | "deleting">("typing")
+  const [prevResetKey, setPrevResetKey] = useState(resetKey)
 
-  useEffect(() => {
+  if (resetKey !== prevResetKey) {
+    setPrevResetKey(resetKey)
     setDisplayed("")
     setIndex(0)
     setPhase("typing")
-  }, [resetKey])
+  }
 
   useEffect(() => {
     const current = strings[index % strings.length]
@@ -34,8 +36,10 @@ function useTypewriter(strings: string[], resetKey: string, typingSpeed = 75, de
       if (displayed.length > 0) {
         timer = setTimeout(() => setDisplayed(displayed.slice(0, -1)), deletingSpeed)
       } else {
-        setIndex((i) => (i + 1) % strings.length)
-        setPhase("typing")
+        timer = setTimeout(() => {
+          setIndex((i) => (i + 1) % strings.length)
+          setPhase("typing")
+        }, 0)
       }
     }
 

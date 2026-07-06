@@ -1,8 +1,6 @@
 "use client"
 
-import { useLanguage } from "@/contexts/LanguageContext"
 export function Footer() {
-  const { lang } = useLanguage()
   const year = new Date().getFullYear()
 
   return (

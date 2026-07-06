@@ -41,7 +41,10 @@ export function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       })
-      if (!res.ok) throw new Error(lang === "en" ? "Something went wrong." : "Une erreur est survenue.")
+      if (!res.ok) {
+        setSendError(lang === "en" ? "Something went wrong." : "Une erreur est survenue.")
+        return
+      }
       setSubmitted(true)
     } catch (err) {
       setSendError(err instanceof Error ? err.message : "Error")
