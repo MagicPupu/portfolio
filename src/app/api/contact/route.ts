@@ -1,5 +1,6 @@
 import { Resend } from "resend"
 import { z } from "zod"
+import { EMAIL_FROM } from "@/lib/email/config"
 
 export const dynamic = "force-dynamic"
 
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
   const { name, email, message } = body.data
 
   const { error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL as string,
+    from: EMAIL_FROM,
     to: "antoine.pulon@gmail.com",
     replyTo: email,
     subject: `Portfolio contact — ${name}`,
