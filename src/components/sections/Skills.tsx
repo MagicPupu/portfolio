@@ -87,15 +87,15 @@ export function Skills() {
         )}
       >
         {/* Header + toggle */}
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 mb-14 flex items-end justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 mb-14 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <h2
-            className="font-display font-bold tracking-tight leading-[0.95] text-white"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}
+            className="font-display font-bold tracking-tight leading-[0.95] text-white min-w-0"
+            style={{ fontSize: "clamp(2rem, 6vw, 5rem)" }}
           >
             {t.skills.title}
           </h2>
 
-          <div className="flex items-center gap-1 glass-card rounded-lg p-1 shrink-0">
+          <div className="flex items-center gap-1 glass-card rounded-lg p-1 shrink-0 self-start sm:self-auto">
             <button
               onClick={() => setMode("marquee")}
               className={cn(
