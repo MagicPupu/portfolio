@@ -8,7 +8,7 @@ import type { Lang } from "@/lib/i18n"
 const stats = [
   { value: "3+",  label: { en: "Years experience",      fr: "Ans d'expérience" } },
   { value: "10+", label: { en: "Technologies mastered", fr: "Technologies maîtrisées" } },
-  { value: "1",   label: { en: "Startup co-founded",    fr: "Startup co-fondée" } },
+  { value: "2",   label: { en: "Startups co-founded",   fr: "Startups co-fondées" } },
   { value: "4",   label: { en: "Languages spoken",      fr: "Langues parlées" } },
 ]
 

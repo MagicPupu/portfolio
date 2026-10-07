@@ -14,9 +14,9 @@ const en = {
     contact: "Contact",
   },
   hero: {
-    title: "Computer Science Engineer · Full Stack · Cloud · AI",
+    title: "Co-founder & CTO @ Jynio | Co-founder @ Drinki | Ex-ArianeGroup, Safran | CESI Graduate Engineer",
     subtitle:
-      "Co-founder of Drinki. Building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
+      "Co-founder and CTO of Jynio, co-founder of Drinki. Building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
     cta: {
       work: "View my work",
       contact: "Contact",
@@ -29,7 +29,7 @@ const en = {
   },
   about: {
     title: "About",
-    body: "{age}-year-old French engineer based in Bordeaux. I build full-stack products, ship AI pipelines, and co-found startups — all while completing my Master's at CESI. Fluent in English, conversational in Spanish, learning Japanese. Passionate about cloud-native systems, generative AI, and long-term investing.",
+    body: "{age}-year-old French engineer based in Bordeaux. I build full-stack products, ship AI infrastructure, and co-found startups. CESI graduate engineer, Co-founder and CTO of Jynio. Fluent in English, conversational in Spanish, learning Japanese. Passionate about cloud-native systems, generative AI, and long-term investing.",
   },
   experience: {
     title: "Experience",
@@ -41,6 +41,9 @@ const en = {
   skills: {
     title: "Skills",
   },
+  footer: {
+    legal: "Legal notice & privacy",
+  },
   blog: {
     title: "Blog",
     comingSoon: "Coming soon",
@@ -50,7 +53,7 @@ const en = {
   contact: {
     title: "Contact",
     subtitle:
-      "Open to internships, full-time roles, and collaboration on ambitious projects.",
+      "Open to full-time roles in cloud, DevOps, AI and full-stack, and relocating to Sydney. Happy to talk about ambitious projects.",
     form: {
       name: "Name",
       email: "Email",
@@ -77,9 +80,9 @@ const fr = {
     contact: "Contact",
   },
   hero: {
-    title: "Étudiant Ingénieur Informatique · Full Stack · Cloud · IA",
+    title: "Co-fondateur & CTO @ Jynio | Co-fondateur @ Drinki | Ex-ArianeGroup, Safran | Ingénieur diplômé du CESI",
     subtitle:
-      "Co-fondateur de Drinki. Je construis des produits scalables à l'intersection du génie logiciel, de l'IA et de l'infrastructure cloud.",
+      "Co-fondateur et CTO de Jynio, co-fondateur de Drinki. Je construis des produits scalables à l'intersection du génie logiciel, de l'IA et de l'infrastructure cloud.",
     cta: {
       work: "Voir mes projets",
       contact: "Contact",
@@ -92,7 +95,7 @@ const fr = {
   },
   about: {
     title: "À propos",
-    body: "Ingénieur de {age} ans basé à Bordeaux. Je construis des produits full-stack, déploie des pipelines IA et co-fonde des startups — tout en finalisant mon Master à CESI. Anglais courant, espagnol conversationnel, japonais en apprentissage. Passionné par les systèmes cloud-native, l'IA générative et l'investissement long terme.",
+    body: "Ingénieur de {age} ans basé à Bordeaux. Je construis des produits full-stack, déploie des infrastructures IA et co-fonde des startups. Ingénieur diplômé du CESI, Co-fondateur et CTO de Jynio. Anglais courant, espagnol conversationnel, japonais en apprentissage. Passionné par les systèmes cloud-native, l'IA générative et l'investissement long terme.",
   },
   experience: {
     title: "Expérience",
@@ -104,6 +107,9 @@ const fr = {
   skills: {
     title: "Compétences",
   },
+  footer: {
+    legal: "Mentions légales & confidentialité",
+  },
   blog: {
     title: "Blog",
     comingSoon: "Bientôt disponible",
@@ -113,7 +119,7 @@ const fr = {
   contact: {
     title: "Contact",
     subtitle:
-      "Disponible pour des stages, des CDI et des collaborations sur des projets ambitieux.",
+      "Ouvert aux postes en cloud, DevOps, IA et full-stack, et en relocalisation à Sydney. Disponible pour échanger sur des projets ambitieux.",
     form: {
       name: "Nom",
       email: "Email",

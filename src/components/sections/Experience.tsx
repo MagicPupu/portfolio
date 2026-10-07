@@ -40,9 +40,11 @@ export function Experience() {
                 <p className="font-display font-semibold text-sm text-white">
                   {exp.company}
                 </p>
-                <p className="font-mono text-xs text-white/40">
-                  {exp.location}
-                </p>
+                {exp.location && (
+                  <p className="font-mono text-xs text-white/40">
+                    {exp.location}
+                  </p>
+                )}
               </div>
 
               {/* Right: role + bullets */}
