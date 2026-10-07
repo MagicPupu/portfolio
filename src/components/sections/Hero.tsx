@@ -52,7 +52,7 @@ function useTypewriter(strings: string[], resetKey: string, typingSpeed = 75, de
 const bentoStats = [
   { val: "3+",  label: { en: "Years exp.",    fr: "Ans d'exp." } },
   { val: "10+", label: { en: "Technologies",  fr: "Technologies" } },
-  { val: "1",   label: { en: "Startup",       fr: "Startup" } },
+  { val: "2",   label: { en: "Startups",      fr: "Startups" } },
   { val: "4",   label: { en: "Languages",     fr: "Langues" } },
 ]
 
@@ -117,8 +117,12 @@ export function Hero() {
             />
           </p>
 
+          <p className="font-mono text-xs text-white/50 mb-3 animate-fade-in-up animation-delay-200 tracking-wide">
+            {t.hero.title}
+          </p>
+
           <p className="font-mono text-xs text-white/45 mb-14 animate-fade-in-up animation-delay-200 tracking-wide">
-            Bordeaux, France
+            {lang === "en" ? "Bordeaux, France · Relocating to Sydney" : "Bordeaux, France · Relocalisation à Sydney"}
           </p>
 
           <div className="flex flex-wrap items-center gap-4 animate-fade-in-up animation-delay-300">

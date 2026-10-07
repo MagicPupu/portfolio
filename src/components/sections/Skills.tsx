@@ -6,8 +6,15 @@ import {
   SiReact, SiNextdotjs, SiFlutter, SiTailwindcss,
   SiNodedotjs, SiGooglecloud, SiDocker, SiKubernetes, SiLinux,
   SiKalilinux, SiGit, SiStripe, SiMapbox, SiFirebase, SiMongodb, SiVercel,
+  SiRuby, SiVite, SiShadcnui, SiFlydotio, SiKedro,
 } from "react-icons/si"
 import { FaAws } from "react-icons/fa"
+import {
+  LuDatabase, LuLayers, LuBlocks, LuCloud, LuTrendingUp, LuInfinity,
+  LuCompass, LuUsers, LuMap, LuTarget, LuRocket, LuBot, LuBrain,
+  LuNetwork, LuShieldCheck, LuFish, LuVenetianMask, LuBug,
+  LuChartColumn, LuBookOpen, LuBraces,
+} from "react-icons/lu"
 import type { IconType } from "react-icons"
 import { useLanguage } from "@/contexts/LanguageContext"
 import { useInView } from "@/hooks/useInView"
@@ -38,6 +45,32 @@ const SKILL_ICONS: Record<string, IconType> = {
   Firebase: SiFirebase,
   MongoDB: SiMongodb,
   Vercel: SiVercel,
+  Ruby: SiRuby,
+  SQL: LuDatabase,
+  NoSQL: LuBraces,
+  Vite: SiVite,
+  "shadcn/ui": SiShadcnui,
+  "Fly.io": SiFlydotio,
+  "Full-Stack Development": LuLayers,
+  "Software Architecture": LuBlocks,
+  "Cloud Architecture": LuCloud,
+  Scalability: LuTrendingUp,
+  DevOps: LuInfinity,
+  "Technical Leadership": LuCompass,
+  "Engineering Management": LuUsers,
+  "Technical Roadmap": LuMap,
+  "Product Strategy": LuTarget,
+  "Startup Development": LuRocket,
+  LLMs: LuBot,
+  LlamaIndex: LuBookOpen,
+  Kedro: SiKedro,
+  "Machine Learning": LuBrain,
+  "Deep Learning": LuNetwork,
+  "Power BI": LuChartColumn,
+  DevSecOps: LuShieldCheck,
+  Gophish: LuFish,
+  "Social Engineering": LuVenetianMask,
+  Pentest: LuBug,
 }
 
 const allSkills = skillGroups.flatMap((g) => g.skills)

@@ -23,13 +23,13 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Antoine Pulon · Portfolio",
+  title: "Antoine Pulon · Co-founder & CTO @ Jynio",
   description:
-    "Computer Science Engineer · Full Stack · Cloud · AI. Co-founder of Drinki. Building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
+    "Co-founder and CTO of Jynio, co-founder of Drinki. CESI graduate engineer building scalable products at the intersection of software engineering, AI, and cloud infrastructure.",
   openGraph: {
-    title: "Antoine Pulon · Portfolio",
+    title: "Antoine Pulon · Co-founder & CTO @ Jynio",
     description:
-      "Computer Science Engineer · Full Stack · Cloud · AI. Co-founder of Drinki.",
+      "Co-founder and CTO of Jynio, co-founder of Drinki. CESI graduate engineer · Full Stack · Cloud · AI.",
     type: "website",
   },
 }

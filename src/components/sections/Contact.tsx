@@ -86,7 +86,7 @@ export function Contact() {
               <span className="font-mono text-sm text-white/40 group-hover:text-accent transition-colors duration-150">→</span>
             </a>
             <a
-              href="https://www.linkedin.com/in/antoine-pulon"
+              href="https://www.linkedin.com/in/antoine-pulon-1ba0b41b2/"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center justify-between border-b border-white/[0.08] pb-4 text-white/50 hover:text-white transition-colors duration-150"
@@ -103,6 +103,24 @@ export function Contact() {
               className="group flex items-center justify-between border-b border-white/[0.08] pb-4 text-white/50 hover:text-white transition-colors duration-150"
             >
               <span className="font-display text-sm font-medium">GitHub</span>
+              <span className="font-mono text-sm text-white/40 group-hover:text-accent transition-colors duration-150">→</span>
+            </a>
+            <a
+              href="https://jynio.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between border-b border-white/[0.08] pb-4 text-white/50 hover:text-white transition-colors duration-150"
+            >
+              <span className="font-display text-sm font-medium">Jynio</span>
+              <span className="font-mono text-sm text-white/40 group-hover:text-accent transition-colors duration-150">→</span>
+            </a>
+            <a
+              href="https://drinki.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center justify-between border-b border-white/[0.08] pb-4 text-white/50 hover:text-white transition-colors duration-150"
+            >
+              <span className="font-display text-sm font-medium">Drinki</span>
               <span className="font-mono text-sm text-white/40 group-hover:text-accent transition-colors duration-150">→</span>
             </a>
           </div>

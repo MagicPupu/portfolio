@@ -1,14 +1,26 @@
 "use client"
 
+import Link from "next/link"
+import { useLanguage } from "@/contexts/LanguageContext"
+
 export function Footer() {
   const year = new Date().getFullYear()
+  const { t } = useLanguage()
 
   return (
     <footer className="border-t border-white/[0.08] py-8 px-6 sm:px-10 lg:px-16">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-        <p className="font-mono text-xs text-white/40">
-          © {year} Antoine Pulon
-        </p>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+          <p className="font-mono text-xs text-white/40">
+            © {year} Antoine Pulon
+          </p>
+          <Link
+            href="/legal"
+            className="font-mono text-xs text-white/40 hover:text-white/70 transition-colors"
+          >
+            {t.footer.legal}
+          </Link>
+        </div>
         <div className="flex items-center gap-5">
           <a
             href="https://github.com/MagicPupu"
@@ -22,7 +34,7 @@ export function Footer() {
             </svg>
           </a>
           <a
-            href="https://www.linkedin.com/in/antoine-pulon"
+            href="https://www.linkedin.com/in/antoine-pulon-1ba0b41b2/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/25 hover:text-white/70 transition-colors"
